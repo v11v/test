@@ -1,0 +1,46 @@
+
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-server
+
+  rabbitmq:
+    host: 192.168.200.131
+    port: 5672
+    username: admin
+    password: admin
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations: classpath:/config
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+
+#        git:
+#          uri: https://github.com/你的用户路径/sp-config
+#          searchPaths: config
+#          username: your-username
+#          password: your-password
+  #git
+#https://github.com/v11v/sp-config
+
+server:
+  port: 6001
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka1:2001/eureka, http://eureka2:2002/eureka
+  instance:
+    prefer-ip-address: true # 使用ip进行注册
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port} # 界面列表中显示的格式也显示ip
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

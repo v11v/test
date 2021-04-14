@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: zuul
+  rabbitmq:
+    host: 192.168.200.131
+    port: 5672
+    username: admin
+    password: admin
+
+server:
+  port: 3001
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka1:2001/eureka, http://eureka2:2002/eureka
+    inetutils:
+      ignored-interfaces: # 忽略的网卡
+        - VM.*
+#       preferred-networks: # 要是用的网卡的网段
+#         - 192\.168\.0\..+
+
+zuul:
+  retryable: true
+# 默认配置，可省略
+#  routes:
+#    item-service: /item-service/**
+#    user-service: /user-service/**
+#    order-service: /order-service/**
+
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 1000
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 500
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
